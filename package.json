@@ -1,0 +1,25 @@
+{
+  "name": "voxel.io",
+  "version": "1.0.0",
+  "description": "a voxel game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --inline --hot --progress --colors --host 192.168.29.100",
+    "build": "webpack --progress --colors"
+  },
+  "keywords": [
+    "voxel",
+    "game",
+    "minecraft"
+  ],
+  "author": "Daniel Y. Wilby",
+  "license": "ISC",
+  "devDependencies": {
+    "three-js": "^79.0.0",
+    "voxel-engine": "^0.20.2",
+    "voxel-player": "^0.1.0",
+    "webpack": "^3.1.0",
+    "webpack-dev-server": "^2.5.1"
+  }
+}
