@@ -1,49 +1,51 @@
 var createGame = require('voxel-engine');
-var three = require('three-js');
+var game;
+var player
 
-var game = createGame({
-  texturePath: 'textures/',
-  generate: function(x, y, z) {
-    return generateTerrain(x, y, z)
-  },
-  chunkDistance: 2,
-  chunkSize: 8,
-  fogDisabled: true
-});
+init();
 
-var container = document.body;
-game.appendTo(container);
+function init() {
 
-var createPlayer = require('voxel-player')(game);
+  game = createGame({
+    texturePath: 'textures/',
+    generate: function(x, y, z) {
+      return generateTerrain(x, y, z)
+    },
+    chunkDistance: 2,
+    chunkSize: 8,
+    fogDisabled: true
+  });
 
-var player = createPlayer('player.png');
-player.possess();
-player.yaw.position.set(0, 30, 0);
-player.pov('third')
+  var container = document.body;
+  game.appendTo(container);
 
-var thr3 = three();
+  var createPlayer = require('voxel-player')(game);
 
-var newv = new thr3.Vector3(0, 0.00005, 0);
-var oldv = new thr3.Vector3(0, -0.00009, 0);
+  player = createPlayer('textures/player.png');
+  player.possess();
+  player.yaw.position.set(0, 16, 0);
+  player.pov('third');
 
-window.addEventListener('keydown', function(ev) {
-  if(ev.keyCode === 'Y'.charCodeAt(0)) {
-    player.toggle();
-  }
-  if(ev.keyCode === 'G'.charCodeAt(0)) {
-    player.subjectTo(newv)
-  }
-  if(ev.keyCode === 'F'.charCodeAt(0)) {
-    player.subjectTo(oldv)
-  }
-})
+}
 
 function generateTerrain(x, y, z) {
-
-  if(y <= 15) {
-    return 2;
+  if(y <= 4) {
+    return 1;
+  } else if(y > 4 && y < 8) {
+    var rand = Math.random();
+      if(rand >= .5) {
+        return 1;
+      } else {
+        return 0;
+      }
   }
   else {
     return 0;
   }
 }
+
+window.addEventListener('keydown', function(ev) {
+  if(ev.keyCode === 'Y'.charCodeAt(0)) {
+    player.toggle();
+  };
+})
