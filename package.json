@@ -14,7 +14,7 @@
     "minecraft"
   ],
   "author": "Daniel Y. Wilby",
-  "license": "ISC",
+  "license": "GNU AGPLv3",
   "devDependencies": {
     "three-js": "^79.0.0",
     "voxel-engine": "^0.20.2",
