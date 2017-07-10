@@ -1,51 +1,42 @@
-var createGame = require('voxel-engine');
-var game;
-var player
+var THREE = require('three-js/three.js');
+
+var aspectRatio = window.innerWidth / window.innerHeight;;
+var viewAngle = 65;
+var zNear = 0.1;
+var zFar = 1000;
+
+var scene;
+var camera;
+var renderer;
+
+var cube;
 
 init();
+addCube(0, 0, 5);
+render();
 
 function init() {
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera( viewAngle, aspectRatio, zNear, zFar );
+  renderer = new THREE.WebGLRenderer();
+  renderer.setSize( window.innerWidth, window.innerHeight );
+  document.body.appendChild( renderer.domElement );
+};
 
-  game = createGame({
-    texturePath: 'textures/',
-    generate: function(x, y, z) {
-      return generateTerrain(x, y, z)
-    },
-    chunkDistance: 2,
-    chunkSize: 8,
-    fogDisabled: true
-  });
+function addCube(x, y, z) {
+  var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+  var material = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: true } );
+  cube = new THREE.Mesh( geometry, material );
+  scene.add( cube );
+  camera.position.x = x;
+  camera.position.y = y;
+  camera.position.z = z;
+};
 
-  var container = document.body;
-  game.appendTo(container);
-
-  var createPlayer = require('voxel-player')(game);
-
-  player = createPlayer('textures/player.png');
-  player.possess();
-  player.yaw.position.set(0, 16, 0);
-  player.pov('third');
-
-}
-
-function generateTerrain(x, y, z) {
-  if(y <= 4) {
-    return 1;
-  } else if(y > 4 && y < 8) {
-    var rand = Math.random();
-      if(rand >= .5) {
-        return 1;
-      } else {
-        return 0;
-      }
-  }
-  else {
-    return 0;
-  }
-}
-
-window.addEventListener('keydown', function(ev) {
-  if(ev.keyCode === 'Y'.charCodeAt(0)) {
-    player.toggle();
-  };
-})
+function render() {
+	requestAnimationFrame( render );
+	cube.rotation.x += .01;
+	cube.rotation.y += .01;
+  cube.rotation.z += .01;
+	renderer.render(scene, camera);
+};
