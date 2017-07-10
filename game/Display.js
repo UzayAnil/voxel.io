@@ -1,4 +1,5 @@
 import Render from './Render.js';
+import Terrain from './Terrain.js';
 var THREE = require('three-js/three.js');
 
 export default class Display {
@@ -6,8 +7,7 @@ export default class Display {
     init();
   }
   start() {
-    graphics.addCube(0, 0, 5);
-    graphics.render(scene, camera, renderer);
+    graphics.render(scene, camera, renderer)
   }
   configure(va, zN, zF) {
     camera = new THREE.PerspectiveCamera( va, aspectRatio, zN, zF);
@@ -24,11 +24,14 @@ var camera;
 var renderer;
 var graphics;
 
+var world = new Terrain();
+
 function init() {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera( viewAngle, aspectRatio, zNear, zFar );
   renderer = new THREE.WebGLRenderer();
   graphics = new Render(scene, camera, renderer);
+  world.generate(-2, 0, -2, 2, 0, 2);
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( renderer.domElement );
   document.addEventListener('keydown', graphics.keyDown);
