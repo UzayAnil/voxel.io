@@ -31,4 +31,6 @@ function init() {
   graphics = new Render(scene, camera, renderer);
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( renderer.domElement );
+  document.addEventListener('keydown', graphics.keyDown);
+  document.addEventListener('keyup', graphics.keyUp);
 };
